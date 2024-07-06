@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - ./layer_presentation:/usr/share/nginx/html
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - webnet
+
+  api:
+    build:
+      context: ./layer_logic
+    networks:
+      - webnet
+
+networks:
+  webnet:
+    driver: bridge
